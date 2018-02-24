@@ -32,7 +32,18 @@
             @if (Route::has('login'))
                 <ul class="nav navbar-nav navbar-right">
                     @auth
-                        <li><a href="{{ url('/') }}">Home</a></li>
+                        <li><a href="{{ url('/dashboard') }}">Dashboard</a></li>
+                        <li>
+                            <a href="{{ route('logout') }}"
+                               onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                Logout
+                            </a>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                {{ csrf_field() }}
+                            </form>
+                        </li>
                     @else
                         <li><a href="{{ route('login') }}">Login</a></li>
                         <li><a href="{{ route('register') }}">Register</a></li>
