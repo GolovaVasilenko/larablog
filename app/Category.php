@@ -9,6 +9,8 @@ class Category extends Model
 {
 	use Sluggable;
 
+	protected $fillable = ['title'];
+
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
 	 */

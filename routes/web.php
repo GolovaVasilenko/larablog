@@ -16,9 +16,10 @@ Route::get('/page/{name}', 'PageController@show')->name('pageName');
 
 Auth::routes();
 
-Route::get('/dashboard', 'HomeController@index')->name('dashboard');
 
-Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function(){
-	Route::get('/post/list', ['uses' => 'Admin\PostController@index'])->name('post.list');
 
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth'], function(){
+	Route::get('/', 'HomeController@index');
+	Route::resource('/posts', 'PostController');
+	Route::resource('/categories', 'CategoriesController');
 });
