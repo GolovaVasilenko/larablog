@@ -208,7 +208,7 @@
                         <i class="fa fa-dashboard"></i> <span>Админ-панель</span>
                     </a>
                 </li>
-                <li><a href="#"><i class="fa fa-file-text"></i> <span>Страницы</span></a></li>
+                <li><a href="{{ route('pages.index') }}"><i class="fa fa-file-text"></i> <span>Страницы</span></a></li>
                 <li><a href="{{ route("posts.index") }}"><i class="fa fa-sticky-note-o"></i> <span>Посты</span></a></li>
                 <li><a href="{{ route('categories.index') }}"><i class="fa fa-list-ul"></i> <span>Категории</span></a></li>
                 <li><a href="#"><i class="fa fa-tags"></i> <span>Теги</span></a></li>
@@ -232,18 +232,7 @@
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper" style="min-height: 541px;">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <h1>
-                Blank page
-                <small>it all starts here</small>
-            </h1>
-            <ol class="breadcrumb">
-                <li><a href="{{ route('/admin') }}"><i class="fa fa-dashboard"></i></a></li>
-                <li><a href="#">Examples</a></li>
-                <li class="active">Blank page</li>
-            </ol>
-        </section>
+
         @yield('content')
     </div>
     <!-- /.content-wrapper -->

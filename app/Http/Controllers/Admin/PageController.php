@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Page;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -14,7 +15,9 @@ class PageController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.page.index', [
+        	'pages' => Page::all()
+        ]);
     }
 
     /**
@@ -24,7 +27,7 @@ class PageController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.page.create');
     }
 
     /**
@@ -35,7 +38,12 @@ class PageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+        	'title' => 'required'
+        ]);
+
+        Page::create($request->all());
+        return redirect()->route('pages.index');
     }
 
     /**
@@ -57,7 +65,9 @@ class PageController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('admin.page.edit', [
+        	'page' => Page::find($id)
+        ]);
     }
 
     /**
@@ -69,7 +79,13 @@ class PageController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+    	$this->validate($request, [
+    		'title' => 'required'
+	    ]);
+
+        $page = Page::find($id);
+        $page->update($request->all());
+        return redirect()->route('pages.edit', $id);
     }
 
     /**
@@ -80,6 +96,7 @@ class PageController extends Controller
      */
     public function destroy($id)
     {
-        //
+	    Page::find($id)->delete();
+	    return redirect()->route('pages.index');
     }
 }
