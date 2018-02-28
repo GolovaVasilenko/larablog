@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email'
     ];
 
     /**
@@ -53,7 +53,7 @@ class User extends Authenticatable
     {
     	$user = new self();
     	$user->fill($fields);
-    	$user->password = bcrypt($fields['password']);
+	    $user->generatePassword($fields['password']);
     	$user->save();
     	return $user;
     }
@@ -64,14 +64,34 @@ class User extends Authenticatable
     public function edit($fields)
     {
     	$this->fill($fields);
-    	$this->password = bcrypt($fields['password']);
+
+	    $this->generatePassword($fields['password']);
+
     	$this->save();
     }
 
+    function generatePassword($password)
+    {
+	    if($password != null){
+		    $this->password = bcrypt($password);
+		    $this->save();
+	    }
+    }
+
+	/**
+	 * @throws \Exception
+	 */
     public function remove()
     {
-	    Storage::delete('uploads', $this->image);
+	    $this->removeAvatar();
     	$this->delete();
+    }
+
+    public function removeAvatar()
+    {
+	    if($this->avatar != null){
+		    Storage::delete('uploads', $this->avatar);
+	    }
     }
 
 	/**
@@ -81,19 +101,20 @@ class User extends Authenticatable
 	{
 		if($image == null) return;
 
-		Storage::delete('uploads', $this->image);
+		$this->removeAvatar();
+
 		$fileName = str_random(10) . '.' . $image->extension();
-		$image->saveAs('uploads', $fileName);
-		$this->image = $fileName;
+		$image->storeAs('uploads', $fileName);
+		$this->avatar = $fileName;
 		$this->save();
 	}
 
 	public function getAvatar()
 	{
-		if(null == $this->image){
-			return '/image/avatar-default.png';
+		if(null == $this->avatar){
+			return '/img/no-user.png';
 		}
-		return '/uploads/' . $this->image;
+		return '/uploads/' . $this->avatar;
 	}
 
 	/**

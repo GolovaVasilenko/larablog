@@ -10,6 +10,9 @@ class Post extends Model
 {
 	use Sluggable;
 
+	/**
+	 * @var array
+	 */
 	protected $fillable = [
 		'title',
 		'excerpt',
@@ -19,31 +22,31 @@ class Post extends Model
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\HasOne
 	 */
-    public function category()
-    {
-    	return $this->hasOne(Category::class);
-    }
+	public function category()
+	{
+		return $this->hasOne(Category::class);
+	}
 
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\HasOne
 	 */
-    public function author()
-    {
-    	return $this->hasOne(User::class);
-    }
+	public function author()
+	{
+		return $this->hasOne(User::class);
+	}
 
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
 	 */
-    public function tags()
-    {
-    	return $this->belongsToMany(
-    		Tag::class,
-		    'posts_tags',
-		    'post_id',
-		    'tag_id'
-	    );
-    }
+	public function tags()
+	{
+		return $this->belongsToMany(
+			Tag::class,
+			'posts_tags',
+			'post_id',
+			'tag_id'
+		);
+	}
 
 	/**
 	 * Return the sluggable configuration array for this model.

@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Post;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Validation\Rule;
 
-class PostController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +16,8 @@ class PostController extends Controller
      */
     public function index()
     {
-    	$posts = Post::all();
-        return view('admin.post.index', [
-        	'posts' => $posts
+        return view('admin.user.index', [
+        	'users' => User::all()
         ]);
     }
 
@@ -28,7 +28,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('admin.post.create');
+        return view('admin.user.create');
     }
 
     /**
@@ -39,7 +39,18 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+        	'name' => 'required',
+	        'email' => 'required|email|unique:users',
+	        'password' => 'required',
+	        'avatar' => 'nullable|image'
+        ]);
+
+        $user = User::add($request->all());
+
+        $user->uploadAvatar($request->file('avatar'));
+
+        return redirect()->route('users.index');
     }
 
     /**
@@ -61,7 +72,9 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('admin.user.edit', [
+        	'user' => User::find($id)
+        ]);
     }
 
     /**
@@ -73,7 +86,23 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+	    $user = User::find($id);
+
+	    $this->validate($request, [
+		    'name' => 'required',
+		    'email' => [
+		    	'required',
+			    'email',
+			    Rule::unique('users')->ignore($user->id),
+		    ],
+		    'avatar' => 'nullable|image',
+	    ]);
+
+
+	    $user->edit($request->all());
+	    $user->uploadAvatar($request->file('avatar'));
+
+	    return redirect()->route('users.index');
     }
 
     /**
@@ -84,6 +113,8 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        User::find($id)->remove();
+
+        return redirect()->route('users.index');
     }
 }

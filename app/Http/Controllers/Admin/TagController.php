@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Post;
+use App\Tag;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class PostController extends Controller
+class TagController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +15,8 @@ class PostController extends Controller
      */
     public function index()
     {
-    	$posts = Post::all();
-        return view('admin.post.index', [
-        	'posts' => $posts
+        return view('admin.tag.index', [
+        	'tags' => Tag::all()
         ]);
     }
 
@@ -28,7 +27,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('admin.post.create');
+        return view('admin.tag.create');
     }
 
     /**
@@ -39,7 +38,13 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+        	'title' => 'required'
+        ]);
+
+        Tag::create($request->all());
+
+        return redirect()->route('tags.index');
     }
 
     /**
@@ -61,7 +66,9 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('admin.tag.edit', [
+        	'tag' => Tag::find($id)
+        ]);
     }
 
     /**
@@ -73,7 +80,13 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+        	'title' => 'required'
+        ]);
+
+        $tag = Tag::find($id);
+        $tag->update($request->all());
+        return redirect()->route('tags.edit', $id);
     }
 
     /**
@@ -84,6 +97,8 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Tag::find($id)->delete();
+
+        return redirect()->route('tags.index');
     }
 }
