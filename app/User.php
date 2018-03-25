@@ -90,7 +90,7 @@ class User extends Authenticatable
     public function removeAvatar()
     {
 	    if($this->avatar != null){
-		    Storage::delete('uploads', $this->avatar);
+		    Storage::delete('uploads/'. $this->avatar);
 	    }
     }
 

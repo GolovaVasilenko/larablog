@@ -4,11 +4,15 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class Post extends Model
 {
 	use Sluggable;
+
+	const IS_DRAFT = 0;
+	const IS_PUBLIC = 1;
 
 	/**
 	 * @var array
@@ -20,19 +24,19 @@ class Post extends Model
 	];
 
 	/**
-	 * @return \Illuminate\Database\Eloquent\Relations\HasOne
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
 	 */
 	public function category()
 	{
-		return $this->hasOne(Category::class);
+		return $this->belongsTo(Category::class);
 	}
 
 	/**
-	 * @return \Illuminate\Database\Eloquent\Relations\HasOne
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
 	 */
 	public function author()
 	{
-		return $this->hasOne(User::class);
+		return $this->belongsTo(User::class, 'user_id');
 	}
 
 	/**
@@ -90,8 +94,26 @@ class Post extends Model
 	 */
 	public function remove()
 	{
-		Storage::delete('uploads', $this->image);
+		$this->removeImage();
 		$this->delete();
+	}
+
+	protected function removeImage()
+	{
+		if($this->image != null){
+			Storage::delete('uploads/'. $this->image);
+		}
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getImage()
+	{
+		if(null == $this->image){
+			return '/img/no_image.png';
+		}
+		return '/uploads/' . $this->image;
 	}
 
 	/**
@@ -99,12 +121,12 @@ class Post extends Model
 	 */
 	public function uploadImage($image)
 	{
-		if($image == null) return;
+		if($image == null) { return; }
 
-		Storage::delete('uploads', $this->image);
-		$fileName = str_random(10) . '.' . $image->extension();
-		$image->saveAs('uploads', $fileName);
-		$this->image = $fileName;
+		$this->removeImage();
+		$filename = str_random(10) . '.' . $image->extension();
+		$image->storeAs('uploads', $filename);
+		$this->image = $filename;
 		$this->save();
 	}
 
@@ -129,46 +151,38 @@ class Post extends Model
 		$this->tags()->sync($ids);
 	}
 
-	/**
-	 * @return $this|void
-	 */
-	public function setVisible()
+	public function setDraft()
 	{
-		$this->visible = 1;
+		$this->status = Post::IS_DRAFT;
 		$this->save();
 	}
 
-	/**
-	 *
-	 */
-	public function setUnVisible()
+	public function setPublic()
 	{
-		$this->visible = 0;
+		$this->status = Post::IS_PUBLIC;
 		$this->save();
 	}
 
-	/**
-	 * @param null $value
-	 *
-	 * @return Post|void
-	 */
-	public function toggleVisible($value = null)
+	public function toggleStatus($value)
 	{
-		if($value){
-			return $this->setVisible();
+		if($value == null)
+		{
+			return $this->setDraft();
 		}
 
-		return $this->setUnVisible();
+		return $this->setPublic();
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getImage()
+	public function getCategoryTitle()
 	{
-		if(null == $this->image){
-			return '/image/no-image.png';
+		return ($this->category !== null) ? $this->category->title : 'Нет категории';
+	}
+
+	public function getTagsTitles()
+	{
+		if(!empty($this->tags)){
+			return implode(", ", $this->tags->pluck('title')->all());
 		}
-		return '/uploads/' . $this->image;
+		return 'Тегов нет';
 	}
 }

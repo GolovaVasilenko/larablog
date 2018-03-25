@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 
 use App\Page;
+use App\Post;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -19,13 +20,13 @@ class PageController extends Controller
 	 */
 	public function index()
 	{
-		$last_posts = DB::table('posts')->orderBy('id', 'desc')->take(5)->get();
+		$posts = Post::paginate(3);
 
 		$page = Page::where('slug', 'home')->first();
 
 		return view('page.index', [
 			'home'  => $page,
-			'posts' => $last_posts,
+			'posts' => $posts,
 		]);
 	}
 
