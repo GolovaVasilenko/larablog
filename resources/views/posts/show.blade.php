@@ -6,88 +6,27 @@
             <div class="col-md-8">
                 <article class="post">
                     <div class="post-thumb">
-                        <a href="blog.html"><img src="/img/blog-1.jpg" alt=""></a>
+                        <img src="{{ $post->getImage() }}" alt="">
                     </div>
                     <div class="post-content">
                         <header class="entry-header text-center text-uppercase">
-                            <h6><a href="#"> Travel</a></h6>
-
-                            <h1 class="entry-title"><a href="blog.html">Home is peaceful place</a></h1>
-
-
+                            @if($post->hasCategory())
+                            <h6><a href="{{ route('posts.category', $post->category->slug) }}">{{ $post->getCategoryTitle() }}</a></h6>
+                            @endif
+                            <h1 class="entry-title">{{ $post->title }}</h1>9
                         </header>
                         <div class="entry-content">
-                            <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
-                                tevidulabore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et
-                                justo duo dolores rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-                                ipsum dolor sit am Lorem ipsum dolor sitconsetetur sadipscing elitr, sed diam nonumy
-                                eirmod tempor invidunt ut labore et dolore maliquyam erat, sed diam voluptua.
-                            </p>
-
-                            <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirtempor
-                                invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero accusam et
-                                justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctusest
-                                Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elised
-                                diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sdiam
-                                voluptua. At vero eos et accusam.
-                            </p>
-
-                            <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirtempor
-                                invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero accusam et
-                                justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctusest
-                                Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elised
-                                diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sdiam
-                                voluptua. At vero eos et accusam.
-                            </p>
-
-                            <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirtempor
-                                invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero accusam et
-                                justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctusest
-                                Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elised
-                                diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sdiam
-                                voluptua. At vero eos et accusam.
-                            </p>
-
-                            <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirtempor
-                                invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero accusam et
-                                justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctusest
-                                Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elised
-                                diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sdiam
-                                voluptua. At vero eos et accusam.
-                            </p>
-
-                            <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirtempor
-                                invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero accusam et
-                                justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctusest
-                                Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elised
-                                diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sdiam
-                                voluptua. At vero eos et accusam.
-                            </p>
-
-                            <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirtempor
-                                invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero accusam et
-                                justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctusest
-                                Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elised
-                                diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sdiam
-                                voluptua. At vero eos et accusam.
-                            </p>
-
-                            <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirtempor
-                                invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero accusam et
-                                justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctusest
-                                Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elised
-                                diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sdiam
-                                voluptua. At vero eos et accusam.
-                            </p>
+                            {!! $post->body !!}
                         </div>
                         <div class="decoration">
-                            <a href="#" class="btn btn-default">Decoration</a>
-                            <a href="#" class="btn btn-default">Decoration</a>
+                            @foreach($post->tags as $tag)
+                                <a href="{{ route('posts.tag', $tag->slug) }}" class="btn btn-default">{{ $tag->title }}</a>
+                            @endforeach
                         </div>
 
                         <div class="social-share">
 							<span
-                                    class="social-share-title pull-left text-capitalize">By Rubel On February 12, 2016</span>
+                                    class="social-share-title pull-left text-capitalize">By Rubel On {{ $post->created_at }}</span>
                             <ul class="text-center pull-right">
                                 <li><a class="s-facebook" href="#"><i class="fa fa-facebook"></i></a></li>
                                 <li><a class="s-twitter" href="#"><i class="fa fa-twitter"></i></a></li>
@@ -107,36 +46,38 @@
                 </div><!--top comment end-->
                 <div class="row"><!--blog next previous-->
                     <div class="col-md-6">
+                        @if($post->hasPrevious())
                         <div class="single-blog-box">
-                            <a href="#">
-                                <img src="/img/blog-next.jpg" alt="">
+                            <a href="{{route('post.show', $post->getPrevious()->slug) }}">
+                                <img src="{{ $post->getPrevious()->getImage() }}" alt="">
 
                                 <div class="overlay">
 
                                     <div class="promo-text">
                                         <p><i class=" pull-left fa fa-angle-left"></i></p>
-                                        <h5>Rubel is doing Cherry theme</h5>
+                                        <h5>{{ $post->getPrevious()->title }}</h5>
                                     </div>
                                 </div>
-
-
                             </a>
                         </div>
+                        @endif
                     </div>
                     <div class="col-md-6">
+                        @if($post->hasNext())
                         <div class="single-blog-box">
-                            <a href="#">
-                                <img src="/img/blog-next.jpg" alt="">
+                            <a href="{{ route('post.show', $post->getNext()->slug) }}">
+                                <img src="{{ $post->getNext()->getImage() }}" alt="">
 
                                 <div class="overlay">
                                     <div class="promo-text">
                                         <p><i class=" pull-right fa fa-angle-right"></i></p>
-                                        <h5>Rubel is doing Cherry theme</h5>
+                                        <h5>{{ $post->getNext()->title }}</h5>
 
                                     </div>
                                 </div>
                             </a>
                         </div>
+                        @endif
                     </div>
                 </div><!--blog next previous end-->
                 <div class="related-post-carousel"><!--related post carousel-->
@@ -144,57 +85,15 @@
                         <h4>You might also like</h4>
                     </div>
                     <div class="items">
+                        @foreach($post->relatedPosts() as $item)
                         <div class="single-item">
-                            <a href="#">
-                                <img src="/img/related-post-1.jpg" alt="">
+                            <a href="{{ route('post.show', $item->slug) }}">
+                                <img src="{{ $item->getImage() }}" alt="">
 
-                                <p>Just Wondering at Beach</p>
+                                <p>{{ $item->title }}</p>
                             </a>
                         </div>
-
-
-                        <div class="single-item">
-                            <a href="#">
-                                <img src="/img/related-post-2.jpg" alt="">
-
-                                <p>Just Wondering at Beach</p>
-                            </a>
-                        </div>
-
-
-                        <div class="single-item">
-                            <a href="#">
-                                <img src="/img/related-post-3.jpg" alt="">
-
-                                <p>Just Wondering at Beach</p>
-                            </a>
-                        </div>
-
-
-                        <div class="single-item">
-                            <a href="#">
-                                <img src="/img/related-post-1.jpg" alt="">
-
-                                <p>Just Wondering at Beach</p>
-                            </a>
-                        </div>
-
-                        <div class="single-item">
-                            <a href="#">
-                                <img src="/img/related-post-2.jpg" alt="">
-
-                                <p>Just Wondering at Beach</p>
-                            </a>
-                        </div>
-
-
-                        <div class="single-item">
-                            <a href="#">
-                                <img src="/img/related-post-3.jpg" alt="">
-
-                                <p>Just Wondering at Beach</p>
-                            </a>
-                        </div>
+                        @endforeach
                     </div>
                 </div><!--related post carousel-->
                 <div class="bottom-comment"><!--bottom comment-->
@@ -253,234 +152,8 @@
                     </form>
                 </div><!--end leave comment-->
             </div>
-            <div class="col-md-4" data-sticky_column>
-                <div class="primary-sidebar">
-                    <aside class="widget news-letter">
-                        <h3 class="widget-title text-uppercase text-center">Get Newsletter</h3>
-
-                        <form action="#">
-                            <input type="email" placeholder="Your email address">
-                            <input type="submit" value="Subscribe Now"
-                                   class="text-uppercase text-center btn btn-subscribe">
-                        </form>
-
-                    </aside>
-                    <aside class="widget">
-                        <h3 class="widget-title text-uppercase text-center">Popular Posts</h3>
-
-                        <div class="popular-post">
-
-
-                            <a href="#" class="popular-img"><img src="/img/p1.jpg" alt="">
-
-                                <div class="p-overlay"></div>
-                            </a>
-
-                            <div class="p-content">
-                                <a href="#" class="text-uppercase">Home is peaceful Place</a>
-                                <span class="p-date">February 15, 2016</span>
-
-                            </div>
-                        </div>
-                        <div class="popular-post">
-
-                            <a href="#" class="popular-img"><img src="/img/p1.jpg" alt="">
-
-                                <div class="p-overlay"></div>
-                            </a>
-
-                            <div class="p-content">
-                                <a href="#" class="text-uppercase">Home is peaceful Place</a>
-                                <span class="p-date">February 15, 2016</span>
-                            </div>
-                        </div>
-                        <div class="popular-post">
-
-
-                            <a href="#" class="popular-img"><img src="/img/p1.jpg" alt="">
-
-                                <div class="p-overlay"></div>
-                            </a>
-
-                            <div class="p-content">
-                                <a href="#" class="text-uppercase">Home is peaceful Place</a>
-                                <span class="p-date">February 15, 2016</span>
-                            </div>
-                        </div>
-                    </aside>
-                    <aside class="widget">
-                        <h3 class="widget-title text-uppercase text-center">Featured Posts</h3>
-
-                        <div id="widget-feature" class="owl-carousel">
-                            <div class="item">
-                                <div class="feature-content">
-                                    <img src="/img/p1.jpg" alt="">
-
-                                    <a href="#" class="overlay-text text-center">
-                                        <h5 class="text-uppercase">Home is peaceful</h5>
-
-                                        <p>Lorem ipsum dolor sit ametsetetur sadipscing elitr, sed </p>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="feature-content">
-                                    <img src="/img/p2.jpg" alt="">
-
-                                    <a href="#" class="overlay-text text-center">
-                                        <h5 class="text-uppercase">Home is peaceful</h5>
-
-                                        <p>Lorem ipsum dolor sit ametsetetur sadipscing elitr, sed </p>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="feature-content">
-                                    <img src="/img/p3.jpg" alt="">
-
-                                    <a href="#" class="overlay-text text-center">
-                                        <h5 class="text-uppercase">Home is peaceful</h5>
-
-                                        <p>Lorem ipsum dolor sit ametsetetur sadipscing elitr, sed </p>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </aside>
-                    <aside class="widget pos-padding">
-                        <h3 class="widget-title text-uppercase text-center">Recent Posts</h3>
-
-                        <div class="thumb-latest-posts">
-
-                            <div class="media">
-                                <div class="media-left">
-                                    <a href="#" class="popular-img"><img src="/img/r-p.jpg" alt="">
-
-                                        <div class="p-overlay"></div>
-                                    </a>
-                                </div>
-                                <div class="p-content">
-                                    <a href="#" class="text-uppercase">Home is peaceful Place</a>
-                                    <span class="p-date">February 15, 2016</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="thumb-latest-posts">
-
-
-                            <div class="media">
-                                <div class="media-left">
-                                    <a href="#" class="popular-img"><img src="/img/r-p.jpg" alt="">
-
-                                        <div class="p-overlay"></div>
-                                    </a>
-                                </div>
-                                <div class="p-content">
-                                    <a href="#" class="text-uppercase">Home is peaceful Place</a>
-                                    <span class="p-date">February 15, 2016</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="thumb-latest-posts">
-
-
-                            <div class="media">
-                                <div class="media-left">
-                                    <a href="#" class="popular-img"><img src="/img/r-p.jpg" alt="">
-
-                                        <div class="p-overlay"></div>
-                                    </a>
-                                </div>
-                                <div class="p-content">
-                                    <a href="#" class="text-uppercase">Home is peaceful Place</a>
-                                    <span class="p-date">February 15, 2016</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="thumb-latest-posts">
-
-
-                            <div class="media">
-                                <div class="media-left">
-                                    <a href="#" class="popular-img"><img src="/img/r-p.jpg" alt="">
-
-                                        <div class="p-overlay"></div>
-                                    </a>
-                                </div>
-                                <div class="p-content">
-                                    <a href="#" class="text-uppercase">Home is peaceful Place</a>
-                                    <span class="p-date">February 15, 2016</span>
-                                </div>
-                            </div>
-                        </div>
-                    </aside>
-                    <aside class="widget border pos-padding">
-                        <h3 class="widget-title text-uppercase text-center">Categories</h3>
-                        <ul>
-                            <li>
-                                <a href="#">Food & Drinks</a>
-                                <span class="post-count pull-right"> (2)</span>
-                            </li>
-                            <li>
-                                <a href="#">Travel</a>
-                                <span class="post-count pull-right"> (2)</span>
-                            </li>
-                            <li>
-                                <a href="#">Business</a>
-                                <span class="post-count pull-right"> (2)</span>
-                            </li>
-                            <li>
-                                <a href="#">Story</a>
-                                <span class="post-count pull-right"> (2)</span>
-                            </li>
-                            <li>
-                                <a href="#">DIY & Tips</a>
-                                <span class="post-count pull-right"> (2)</span>
-                            </li>
-                            <li>
-                                <a href="#">Lifestyle</a>
-                                <span class="post-count pull-right"> (2)</span>
-                            </li>
-                        </ul>
-                    </aside>
-                    <aside class="widget pos-padding">
-                        <h3 class="widget-title text-uppercase text-center">Follow@Instagram</h3>
-
-                        <div class="instragram-follow">
-                            <a href="#">
-                                <img src="/img/ins-flow.jpg" alt="">
-                            </a>
-                            <a href="#">
-                                <img src="/img/ins-flow.jpg" alt="">
-                            </a>
-                            <a href="#">
-                                <img src="/img/ins-flow.jpg" alt="">
-                            </a>
-                            <a href="#">
-                                <img src="/img/ins-flow.jpg" alt="">
-                            </a>
-                            <a href="#">
-                                <img src="/img/ins-flow.jpg" alt="">
-                            </a>
-                            <a href="#">
-                                <img src="/img/ins-flow.jpg" alt="">
-                            </a>
-                            <a href="#">
-                                <img src="/img/ins-flow.jpg" alt="">
-                            </a>
-                            <a href="#">
-                                <img src="/img/ins-flow.jpg" alt="">
-                            </a>
-                            <a href="#">
-                                <img src="/img/ins-flow.jpg" alt="">
-                            </a>
-
-                        </div>
-
-                    </aside>
-                </div>
-            </div>
+            @include('_sidebar')
         </div>
     </div>
 </div>
-    @endsection
+@endsection

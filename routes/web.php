@@ -16,9 +16,12 @@ Route::get('/page/{name}', 'PageController@show')->name('pageName');
 
 Route::get('/post/{slug}', 'PostController@show')->name('post.show');
 
+Route::get('/tag/{slug}', 'PostController@tagFilter')->name('posts.tag');
+Route::get('/category/{slug}', 'PostController@categoryFilter')->name('posts.category');
+
 Auth::routes();
 
-
+Route::get('logout', 'Auth\LoginController@logout');
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth'], function(){
 	Route::get('/', 'HomeController@index');

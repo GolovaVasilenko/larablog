@@ -185,4 +185,46 @@ class Post extends Model
 		}
 		return 'Тегов нет';
 	}
+
+	public function hasPrevious()
+	{
+		return self::where('id', '<', $this->id)->max('id');
+	}
+
+	public function getPrevious()
+	{
+		$id = $this->hasPrevious();
+		return self::find($id);
+	}
+
+	public function hasNext()
+	{
+		return self::where('id', '>', $this->id)->min('id');
+	}
+
+	public function getNext()
+	{
+		$id = $this->hasNext();
+		return self::find($id);
+	}
+
+	public function relatedPosts()
+	{
+		return self::all()->except($this->id);
+	}
+
+	public function hasCategory()
+	{
+		return $this->category !== null ? true : false;
+	}
+
+	public static function lastPosts()
+	{
+		return self::orderBy('created_at', 'desc')->take(2)->get();
+	}
+
+	public static function popularPosts()
+	{
+		return self::orderBy('views', 'desc')->take(2)->get();
+	}
 }

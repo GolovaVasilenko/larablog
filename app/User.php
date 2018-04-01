@@ -135,6 +135,7 @@ class User extends Authenticatable
 		$this->save();
 	}
 
+
 	/**
 	 * @param $value
 	 */

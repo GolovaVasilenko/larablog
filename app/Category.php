@@ -32,4 +32,9 @@ class Category extends Model
 			]
 		];
 	}
+
+	public static function getAllCategories()
+	{
+		return self::all();
+	}
 }
