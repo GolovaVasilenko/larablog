@@ -25,7 +25,7 @@
                                 <h6><a href="{{ route('posts.category', $post->category->slug) }}"> {{ $post->category->title }}</a></h6>
                                 @endif
                                 <h1 class="entry-title">
-                                    <a href="{{ route('post.show', $post->slug) }}">Home is peaceful place</a>
+                                    <a href="{{ route('post.show', $post->slug) }}">{{ $post->title }}</a>
                                 </h1>
 
 
@@ -40,7 +40,7 @@
                                 </div>
                             </div>
                             <div class="social-share">
-                                <span class="social-share-title pull-left text-capitalize">By <a href="#">Rubel</a> On February 12, 2016</span>
+                                <span class="social-share-title pull-left text-capitalize">By {{ $post->author->name }} On {{ $post->created_at }}</span>
                                 <ul class="text-center pull-right">
                                     <li><a class="s-facebook" href="#"><i class="fa fa-facebook"></i></a></li>
                                     <li><a class="s-twitter" href="#"><i class="fa fa-twitter"></i></a></li>

@@ -23,6 +23,12 @@ Auth::routes();
 
 Route::get('logout', 'Auth\LoginController@logout');
 
+
+Route::group(['middleware' => 'auth'], function() {
+	Route::get('/profile', 'ProfileController@index')->name('profile');
+	Route::post('/profile', 'ProfileController@store');
+});
+
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth'], function(){
 	Route::get('/', 'HomeController@index');
 	Route::resource('/posts', 'PostController');

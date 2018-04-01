@@ -26,7 +26,7 @@ class PostController extends Controller
     	$tag = Tag::where('slug', $slug)->firstOrfail();
 
     	return view('posts.filter', [
-    		'posts' => $tag->posts()->paginate(2)
+    		'posts' => $tag->posts()->orderBy('created_at', 'desc')->paginate(2)
 	    ]);
     }
 
@@ -34,7 +34,7 @@ class PostController extends Controller
     {
 		$category = Category::where('slug', $slug)->firstOrfail();
 	    return view('posts.filter', [
-		    'posts' => $category->posts()->paginate(2)
+		    'posts' => $category->posts()->orderBy('created_at', 'desc')->paginate(2)
 	    ]);
     }
 }

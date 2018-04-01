@@ -25,8 +25,9 @@
                         </div>
 
                         <div class="social-share">
+
 							<span
-                                    class="social-share-title pull-left text-capitalize">By Rubel On {{ $post->created_at }}</span>
+                                    class="social-share-title pull-left text-capitalize">By {{ $post->author->name }} On {{ $post->created_at }}</span>
                             <ul class="text-center pull-right">
                                 <li><a class="s-facebook" href="#"><i class="fa fa-facebook"></i></a></li>
                                 <li><a class="s-twitter" href="#"><i class="fa fa-twitter"></i></a></li>
@@ -120,11 +121,9 @@
                 </div>
                 <!-- end bottom comment-->
 
-
+                @if(Auth::check())
                 <div class="leave-comment"><!--leave comment-->
                     <h4>Leave a reply</h4>
-
-
                     <form class="form-horizontal contact-form" role="form" method="post" action="#">
                         <div class="form-group">
                             <div class="col-md-6">
@@ -151,6 +150,7 @@
                         <a href="#" class="btn send-btn">Post Comment</a>
                     </form>
                 </div><!--end leave comment-->
+                @endif
             </div>
             @include('_sidebar')
         </div>

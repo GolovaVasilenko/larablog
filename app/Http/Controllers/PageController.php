@@ -20,7 +20,7 @@ class PageController extends Controller
 	 */
 	public function index()
 	{
-		$posts = Post::paginate(3);
+		$posts = Post::orderBy('created_at', 'desc')->paginate(3);
 
 		$page = Page::where('slug', 'home')->first();
 
